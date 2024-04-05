@@ -1,23 +1,23 @@
 import java.util.Scanner;
 
-class kendaraan {
+class Kendaraan {
     public String merk;
     public String warna;
     public String platNomor;
     public int jumlahPenumpang;
     public int maxPenumpang;
 
-    public driver supir;
+    public Driver supir;
 
-    public penumpang[] daftarPenumpang;
+    public Penumpang[] daftarPenumpang;
     public int indexPenumpang;
 
-    public kendaraan(String pn, String m, int max) {
+    public Kendaraan(String pn, String m, int max) {
         this.merk = m;
         this.platNomor = pn;
         this.jumlahPenumpang = 0;
         this.maxPenumpang = max;
-        this.daftarPenumpang = new penumpang[max];
+        this.daftarPenumpang = new Penumpang[max];
         this.indexPenumpang = -1;
 
         System.out.println("Objek dari kelas Kendaraan dengan plat nomor " + this.platNomor + " bermerk " + this.merk + " dengan kapasitas penumpang maksimum " + maxPenumpang + " orang");
@@ -28,32 +28,32 @@ class kendaraan {
         System.out.println("Penumpang saat ini: " + this.jumlahPenumpang);
     }
 
+    public void penumpangNaik(String jenisPenumpang) {
+        System.out.println("Ada penumpang yang ingin naik: " + jenisPenumpang);
+        int current = this.jumlahPenumpang;
+        if (current + 1 > this.maxPenumpang) {
+            System.out.println("Maaf, penumpang melebihi kapasitas");
+        } else {
+            this.indexPenumpang++;
+            daftarPenumpang[indexPenumpang] = new Penumpang(jenisPenumpang);
+            this.jumlahPenumpang++;
+            System.out.println("Penumpang berhasil naik");
+        }
+        cekPenumpang();
+    }
+
     public void penumpangNaik(int naik) {
         System.out.println("Ada penumpang yang ingin naik: " + naik);
         int current = this.jumlahPenumpang;
         if (current + naik > this.maxPenumpang) {
             System.out.println("Maaf, penumpang melebihi kapasitas");
         } else {
-            for (int i = 1; i <= naik; i++) {
+            for (int i = 0; i < naik; i++) {
                 this.indexPenumpang++;
-                daftarPenumpang[indexPenumpang] = new penumpang("Penumpang " + (current + i));
+                daftarPenumpang[indexPenumpang] = new Penumpang("Penumpang " + (current + i + 1));
             }
             this.jumlahPenumpang += naik;
             System.out.println("Penumpang berhasil naik");
-        }
-        cekPenumpang();
-    }
-
-    public void penumpangNaik(String namaPenumpang) {
-        System.out.println("Ada penumpang " + namaPenumpang + " yang ingin naik");
-        int current = this.jumlahPenumpang;
-        if (current + 1 > this.maxPenumpang) {
-            System.out.println("Maaf, penumpang melebihi kapasitas");
-        } else {
-            this.indexPenumpang++;
-            this.daftarPenumpang[this.indexPenumpang] = new penumpang(namaPenumpang);
-            this.jumlahPenumpang++;
-            System.out.println("Penumpang " + namaPenumpang + " berhasil naik");
         }
         cekPenumpang();
     }
@@ -72,85 +72,27 @@ class kendaraan {
         }
         cekPenumpang();
     }
-
-    public void maju() {
-        System.out.println(this.merk + " " + this.platNomor + " Maju");
-    }
-
-    public void mundur() {
-        System.out.println(this.merk + " " + this.platNomor + " Mundur");
-    }
-
-    public void belok() {
-        System.out.println(this.merk + " " + this.platNomor + " Belok");
-    }
-
-    public void berhenti() {
-        System.out.println(this.merk + " " + this.platNomor + " Berhenti");
-    }
-
-    public void ceksupir() {
-        System.out.println("Supir di kendaraan ini bernama " + this.supir.nama + " dengan no sim: " + this.supir.no_sim);
-    }
 }
 
-class bus extends kendaraan {
-    int isToilet;
-    String destinasi;
+class Bus extends Kendaraan {
 
-    public bus(String pn, String m, int max, int isToilet) {
+    public Bus(String pn, String m, int max) {
         super(pn, m, max);
-        this.isToilet = isToilet;
+
     }
 
-    public void cekToilet() {
-        if (isToilet == 1) {
-            System.out.println("Bus ini memiliki toilet.");
-        } else {
-            System.out.println("Bus ini tidak memiliki toilet.");
-        }
-    }
-
-    public void setDestinasi(String dest) {
-        this.destinasi = dest;
-    }
-
-    public void pilihanDestinasi() {
-        System.out.println("Silakan pilih destinasi akhir:");
+    public void destinasiAkhir() {
+        System.out.println("Pilih destinasi akhir bus:");
         System.out.println("a. Halte Merjoasari");
         System.out.println("b. Halte Landungsari");
         System.out.println("c. Halte Mulyarejo");
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Pilih destinasi (masukkan huruf): ");
-        String pilihan = scan.nextLine().toLowerCase();
-        switch (pilihan) {
-            case "a":
-                this.destinasi = "Halte Merjoasari";
-                break;
-            case "b":
-                this.destinasi = "Halte Landungsari";
-                break;
-            case "c":
-                this.destinasi = "Halte Mulyarejo";
-                break;
-            default:
-                System.out.println("Pilihan tidak valid. Harap pilih a, b, atau c.");
-        }
-    }
-
-    public void cekDaftarPenumpang() {
-        System.out.println("Daftar Nama Penumpang di Bus " + merk + " " + platNomor + ":");
-        for (int i = 0; i <= indexPenumpang; i++) {
-            System.out.println((i + 1) + ". " + daftarPenumpang[i].nama);
-        }
     }
 }
 
-class truk extends kendaraan {
+class Truk extends Kendaraan {
     int kapasitasMuatan;
-    String lokasiTurun;
 
-    public truk(String pn, String m, int max) {
+    public Truk(String pn, String m, int max) {
         super(pn, m, max);
     }
 
@@ -162,77 +104,31 @@ class truk extends kendaraan {
         System.out.println("Kapasitas muatan truk ini adalah: " + kapasitasMuatan + " ton.");
     }
 
-    public void pilihanLokasiTurun() {
-        System.out.println("Silakan pilih lokasi turun:");
+    public void destinasiAkhir() {
+        System.out.println("Pilih destinasi akhir truk:");
         System.out.println("a. Pintu masuk Tambang");
         System.out.println("b. Kantin Tambang");
         System.out.println("c. Lokasi Pengeboran Minyak");
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Pilih lokasi turun (masukkan huruf): ");
-        String pilihan = scan.nextLine().toLowerCase();
-        switch (pilihan) {
-            case "a":
-                this.lokasiTurun = "Pintu masuk Tambang";
-                break;
-            case "b":
-                this.lokasiTurun = "Kantin Tambang";
-                break;
-            case "c":
-                this.lokasiTurun = "Lokasi Pengeboran Minyak";
-                break;
-            default:
-                System.out.println("Pilihan tidak valid. Harap pilih a, b, atau c.");
-        }
-    }
-
-    public void turunPekerjaTambang(int turun) {
-        System.out.println("Ada pekerja tambang yang ingin turun: " + turun);
-        int current = this.jumlahPenumpang;
-        if (current - turun < 0) {
-            System.out.println("Maaf, penumpang ghoib yang turun");
-        } else {
-            for (int i = 0; i < turun; i++) {
-                this.indexPenumpang--;
-            }
-            this.jumlahPenumpang -= turun;
-            System.out.println("Pekerja tambang berhasil turun");
-        }
-        cekPenumpang();
-    }
-
-    public void cekDaftarPenumpang() {
-        System.out.println("Daftar Nama Penumpang di Truk " + merk + " " + platNomor + ":");
-        for (int i = 0; i <= indexPenumpang; i++) {
-            System.out.println((i + 1) + ". " + daftarPenumpang[i].nama);
-        }
     }
 }
 
-class driver {
+class Driver {
     public String no_sim;
     public String nama;
 }
 
-class penumpang {
+class Penumpang {
     public String nama;
 
-    public penumpang(String nama) {
+    public Penumpang(String nama) {
         this.nama = nama;
     }
 }
 
-public class App {
+public class Main {
     public static void main(String[] args) {
         int pilihan = 0;
-
-        bus b1 = new bus("AE 6365 YZ", "Mercedes", 8, 1);
-        b1.cekToilet();
-
-        driver s2 = new driver();
-        s2.nama = "Suprianto";
-        s2.no_sim = "621823";
-        b1.supir = s2;
-        b1.ceksupir();
+        Kendaraan kendaraanPilihan = null;
 
         Scanner scan = new Scanner(System.in);
         while (pilihan != 4) {
@@ -251,59 +147,47 @@ public class App {
             // Proses pemilihan menu
             switch (pilihan) {
                 case 1:
-                    System.out.println("Jenis kendaraan:");
-                    System.out.println("1. Bus");
-                    System.out.println("2. Truk");
-                    System.out.print("Pilih jenis kendaraan (masukkan angka): ");
-                    int jenis = scan.nextInt();
-                    if (jenis == 1) {
-                        b1.pilihanDestinasi();
-                        System.out.println("Ada nama?(true/false)");
-                        boolean adaNama = scan.nextBoolean();
-                        scan.nextLine();
-                        if (adaNama) {
-                            System.out.print("Masukkan nama: ");
-                            String namaPenumpang = scan.nextLine();
-                            b1.penumpangNaik(namaPenumpang);
-                        } else {
-                            System.out.println("Berapa jumlah penumpang naik?");
-                            System.out.print("Masukkan angka: ");
-                            int naik = scan.nextInt();
-                            b1.penumpangNaik(naik);
-                        }
-                    } else if (jenis == 2) {
-                        truk t1 = new truk("B 1234 CD", "Hino", 2);
-                        t1.setKapasitas(5); // Contoh kapasitas muatan
-                        t1.pilihanLokasiTurun();
-                        System.out.println("Berapa jumlah pekerja tambang yang naik?");
-                        System.out.print("Masukkan angka: ");
-                        int naik = scan.nextInt();
-                        t1.penumpangNaik(naik);
+                    System.out.println("Pilih jenis kendaraan:");
+                    System.out.println("a. Bus (Masyarakat Umum)");
+                    System.out.println("b. Truk (Pekerja Tambang)");
+                    System.out.print("Masukkan pilihan (a/b): ");
+                    String jenisKendaraan = scan.nextLine();
+                    int jumlahNaik;
+                    if (jenisKendaraan.equals("a")) {
+                        Bus b1 = new Bus("KT 966 YZ", "Mercedes", 30);
+                        kendaraanPilihan = b1;
+                        b1.destinasiAkhir();
+                        System.out.print("Masukkan jumlah penumpang yang naik ke bus: ");
+                        jumlahNaik = scan.nextInt();
+                        b1.penumpangNaik(jumlahNaik);
+                    } else if (jenisKendaraan.equals("b")) {
+                        Truk b2Truk = new Truk("KT 433 NC", "Hilda", 3);
+                        kendaraanPilihan = b2Truk;
+                        b2Truk.destinasiAkhir();
+                        System.out.print("Masukkan jumlah penumpang yang naik ke truk: ");
+                        jumlahNaik = scan.nextInt();
+                        b2Truk.penumpangNaik(jumlahNaik);
                     } else {
-                        System.out.println("Pilihan tidak valid. Silakan pilih antara 1 atau 2.");
+                        System.out.println("Pilihan tidak valid");
                     }
                     break;
                 case 2:
-                    System.out.println("Jenis kendaraan:");
-                    System.out.println("1. Bus");
-                    System.out.println("2. Truk");
-                    System.out.print("Pilih jenis kendaraan (masukkan angka): ");
-                    int jenisTurun = scan.nextInt();
-                    if (jenisTurun == 1) {
+                    if (kendaraanPilihan != null) {
                         System.out.println("Berapa jumlah penumpang turun?");
                         System.out.print("Masukkan angka: ");
                         int turun = scan.nextInt();
-                        b1.penumpangTurun(turun);
-                    } else if (jenisTurun == 2) {
-                        truk t1 = new truk("B 1234 CD", "Hino", 2);
-                        t1.turunPekerjaTambang(1); // Menangani turun pekerja tambang (contoh 1 pekerja)
+                        kendaraanPilihan.penumpangTurun(turun);
                     } else {
-                        System.out.println("Pilihan tidak valid. Silakan pilih antara 1 atau 2.");
+                        System.out.println("Pilih kendaraan terlebih dahulu.");
                     }
                     break;
                 case 3:
-                    b1.cekPenumpang();
-                    b1.cekDaftarPenumpang();
+                    if (kendaraanPilihan != null) {
+                        System.out.println("Penumpang dalam kendaraan:");
+                        kendaraanPilihan.cekPenumpang();
+                    } else {
+                        System.out.println("Pilih kendaraan terlebih dahulu.");
+                    }
                     break;
                 case 4:
                     System.out.println("Terima kasih. Program berhenti.");
