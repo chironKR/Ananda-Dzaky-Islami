@@ -78,7 +78,6 @@ class Bus extends Kendaraan {
 
     public Bus(String pn, String m, int max) {
         super(pn, m, max);
-
     }
 
     public void destinasiAkhir() {
@@ -90,18 +89,9 @@ class Bus extends Kendaraan {
 }
 
 class Truk extends Kendaraan {
-    int kapasitasMuatan;
-
+   
     public Truk(String pn, String m, int max) {
         super(pn, m, max);
-    }
-
-    public void setKapasitas(int kapasitas) {
-        this.kapasitasMuatan = kapasitas;
-    }
-
-    public void cekMuatan() {
-        System.out.println("Kapasitas muatan truk ini adalah: " + kapasitasMuatan + " ton.");
     }
 
     public void destinasiAkhir() {
